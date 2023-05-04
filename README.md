@@ -4,7 +4,9 @@ A Sphinx extension for displaying any generated static API documentation in a si
 
 ## Overview
 
-This Sphinx extension allows you to automatically include and display static API documentation (e.g., JavaDoc, Python's Sphinx-generated HTML) in the sidebar of your Sphinx documentation. It updates the `html_context` with the API documentation paths, which can then be used in the sidebar.
+This Sphinx extension allows you to include and display static API documentation (e.g., `JavaDoc`, `Doxygen`) in the sidebar of your Sphinx documentation. It updates the `html_context` with the API documentation paths, which can then be used in the API sidebar template.
+
+This extension serves as an immediate workaround to make Sphinx consume API docs from various languages without building additional extensions.
 
 ## Installation
 
