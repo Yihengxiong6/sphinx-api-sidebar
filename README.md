@@ -29,7 +29,7 @@ extensions = [
 2. To use a custom command to generate your API documentation or specify different directories, you can set the api_docs_generator configuration value in your conf.py file:
 
 ```python
-api_docs_generator = [
+api_docs_generators = [
   {
     'command': '<your_api_docs_build_command_1>',
     'outputs': [
