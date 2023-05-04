@@ -23,30 +23,31 @@ def generate_api_docs(app, config):
     if os.path.exists(api_docs_dir):
         shutil.rmtree(api_docs_dir)
 
-    # api_docs = config.html_context['api_docs']
     api_docs = []
 
-    # get the customized command from conf.py and run it
-    customized_build_command = config.api_docs_generator[0]
+    # iterate through the list of dictionaries and run the customized command
+    for api_docs_generator in config.api_docs_generators:
+        # get the build command from conf.py and run it
+        command = api_docs_generator['command']
 
-    subprocess.run([f'{customized_build_command}'], text=True, shell=True, capture_output=True)
+        subprocess.run([f'{command}'], text=True, shell=True, capture_output=True)
 
-    # iterate through the list of dictionaries and copy the generated API docs to the static/api-docs directory
-    for generated_api_doc in config.api_docs_generator[1]:
+        # iterate through the list of dictionaries and copy the generated API docs to the static/api-docs directory
+        for output in api_docs_generator['outputs']:
 
-        generated_api_doc_name = generated_api_doc['name']
+            api_doc_name = output['name']
 
-        generated_api_doc_path = generated_api_doc['path']
-        
-        shutil.copytree(generated_api_doc_path, os.path.join(api_docs_dir, generated_api_doc_name))
+            output_path = output['path']
+            
+            shutil.copytree(output_path, os.path.join(api_docs_dir, api_doc_name))
 
-        api_docs.append(generated_api_doc_name)
+            api_docs.append(api_doc_name)
 
     # update html_context with api_docs
     update_html_context(config, api_docs)
 
 
 def setup(app):
-    app.add_config_value('api_docs_generator', [], 'env')
+    app.add_config_value('api_docs_generators', [], 'env')
 
     app.connect('config-inited', generate_api_docs)
