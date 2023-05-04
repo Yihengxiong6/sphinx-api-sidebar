@@ -28,18 +28,35 @@ extensions = [
 
 ```python
 api_docs_generator = [
-    '<your_custom_build_command>',
-    [
-        {
-            'name': '<generated_api_doc_name>',
-            'path': '<path_to_generated_api_doc>'
-        },
-        # Add more dictionaries for each additional API doc
-    ]
+  {
+    'command': '<your_api_docs_build_command_1>',
+    'outputs': [
+            {
+                'name': '<generated_api_doc_name_1>',
+                'path': '<path_to_generated_api_doc_1>'
+            },
+            {
+                'name': '<generated_api_doc_name_2>',
+                'path': '<path_to_generated_api_doc_2>'
+            },
+            # ...
+        ]
+  },
+  {
+    'command': '<your_custom_build_command_2>',
+    'outputs': [
+            {
+                'name': '<generated_api_doc_name_3>',
+                'path': '<path_to_generated_api_doc_3>'
+            },
+            # ...
+        ]
+  },
+  # more groups of generated api docs
 ]
 ```
 
-Replace <your_custom_build_command>, <generated_api_doc_name>, and <path_to_generated_api_doc> with the appropriate values for your project.
+Replace <your_custom_build_command_*>, <generated_api_doc_name_*>, and <path_to_generated_api_doc_*> with the appropriate values for your project.
 
 
 3. To make the different api documentation show up in the sidebar, you will need to copy the `api_docs_sidebar.html` template file from the `sphinx_api_sidebar/templates` folder of the installed package to your Sphinx project's _templates folder. Alternatively, you can create a new file in your project's _templates folder with the following content:
