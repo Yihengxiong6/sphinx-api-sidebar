@@ -8,6 +8,31 @@ from sphinx.util import logging
 
 logger = logging.getLogger(__name__)
 
+TEMPLATE_CONTENT = """{% if api_docs %}
+    <h3>{{ _('API Documentation') }}</h3>
+    <ul style="list-style-type: none;">
+    {%- for item in api_docs %}
+        <li style="margin-bottom: 10px;"><a href="{{ pathto('_static/api-docs/{}'.format(item), 1) }}">{{ item }}</a></li>
+    {%- endfor %}
+    </ul>
+{% endif %}
+"""
+
+def write_template_file(app):
+    templates_dir = os.path.join(app.srcdir, '_templates/sidebar')
+    template_path = os.path.isfile(os.path.join(templates_dir, 'api_docs_sidebar.html'))
+    
+    # create the directory if it doesn't exist
+    os.makedirs(templates_dir, exist_ok=True)
+
+    # if the template file already exists, don't write it again
+    if template_path:
+        return
+
+    # else write the template content to api_docs_sidebar.html
+    with open(os.path.join(templates_dir, 'api_docs_sidebar.html'), 'w') as f:
+        f.write(TEMPLATE_CONTENT)
+
 def update_html_context(config, api_docs=[]):
     # update html_context with api_docs
     config.html_context.update({
@@ -15,6 +40,9 @@ def update_html_context(config, api_docs=[]):
     })
 
 def generate_api_docs(app, config):
+
+    # write the template file
+    write_template_file(app)
 
     # get the path to the _static/api-docs directory
     api_docs_dir = os.path.join(app.srcdir, '_static/api-docs')
