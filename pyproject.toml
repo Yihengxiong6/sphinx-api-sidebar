@@ -14,3 +14,9 @@ authors = [
     {name = "Yiheng Xiong", email = "georgex8866@gmail.com"}
 ]
 license.file = "LICENSE"
+
+[project.optional-dependencies]
+dev = [
+    "black ~=23.3.0",
+    "isort ~=5.12.0",
+]
