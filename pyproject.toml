@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sphinx_api_sidebar"
-version = "0.1.0"
+version = "0.1.2"
 description = "Display any generated static API documentation in a sidebar"
 readme = "README.md"
 authors = [
