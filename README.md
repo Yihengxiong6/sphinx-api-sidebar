@@ -4,9 +4,9 @@ A Sphinx extension for displaying any generated static API documentation in a si
 
 ## Overview
 
-This Sphinx extension allows you to include and display static API documentation (e.g., `JavaDoc`, `Doxygen`) in the sidebar of your Sphinx documentation. It updates the `html_context` with the API documentation paths, which can then be used in the API sidebar template.
+This Sphinx extension allows you to include and display static API documentation (e.g., `JavaDoc`, `Doxygen`) in the sidebar of your Sphinx documentation. It updates the `html_context` with the API documentation paths, which can then be used to render the API documentation sidebar template.
 
-This extension serves as an immediate workaround to make Sphinx consume API docs from various languages without building additional extensions.
+This extension serves as an immediate workaround to make Sphinx consume API docs in HTML format from various languages without building additional deeply integrated extensions for each type of API docs.
 
 ## Installation
 
@@ -26,7 +26,7 @@ extensions = [
 ]
 ```
 
-2. To use a custom command to generate your API documentation or specify different directories, you can set the api_docs_generator configuration value in your conf.py file:
+2. To use a custom command to generate your API documentation or specify different directories, you can set the `api_docs_generators` configuration value in your conf.py file:
 
 ```python
 api_docs_generators = [
@@ -58,29 +58,15 @@ api_docs_generators = [
 ]
 ```
 
-Replace <your_custom_build_command_*>, <generated_api_doc_name_*>, and <path_to_generated_api_doc_*> with the appropriate values for your project.
+Replace `<your_custom_build_command_*>`, `<generated_api_doc_name_*>`, and `<path_to_generated_api_doc_*>` with the appropriate values for your project.
 
-
-3. To make the different api documentation show up in the sidebar, you will need to copy the `api_docs_sidebar.html` template file from the `sphinx_api_sidebar/templates` folder of the installed package to your Sphinx project's _templates folder. Alternatively, you can create a new file in your project's _templates folder with the following content:
-
-```html
-{% if api_docs %}
-  <h3>{{ _('API Documentation') }}</h3>
-  <ul style="list-style-type: none;">
-    {%- for item in api_docs %}
-      <li style="margin-bottom: 10px;"><a href="{{ pathto('_static/api-docs/{}'.format(item), 1) }}">{{ item }}</a></li>
-    {%- endfor %}
-  </ul>
-{% endif %}
-```
-
-4. Update your `conf.py` file to include the `api_docs_sidebar.html` template in the html_sidebars configuration:
+3. Update your `conf.py` file to include the `api_docs_sidebar.html` template in the html_sidebars configuration:
 
 ```python
 html_sidebars = {
     '**': [
         # ... other sidebars ...
-        'api_docs_sidebar.html',
+        'sidebar/api_docs_sidebar.html',
     ]
 }
 ```
