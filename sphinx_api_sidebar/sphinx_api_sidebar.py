@@ -39,7 +39,7 @@ def update_html_context(config, api_docs=[]):
         "api_docs": api_docs
     })
 
-def generate_api_docs(app, config):
+def generate_api_sidebar(app, config):
 
     # write the template file
     write_template_file(app)
@@ -78,4 +78,4 @@ def generate_api_docs(app, config):
 def setup(app):
     app.add_config_value('api_docs_generators', [], 'env')
 
-    app.connect('config-inited', generate_api_docs)
+    app.connect('config-inited', generate_api_sidebar)
