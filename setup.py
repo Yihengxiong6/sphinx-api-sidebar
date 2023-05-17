@@ -6,7 +6,7 @@ from setuptools import setup
 setup(
     name="sphinx_api_sidebar",
     description="Display any generated static API documentation in a sidebar",
-    version="0.1.2",
+    version="0.2.0",
     author="Yiheng Xiong",
     author_email="georgex8866@gmail.com",
     url="https://github.com/Yihengxiong6/sphinx_api_sidebar",
