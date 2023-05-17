@@ -35,7 +35,7 @@ api_docs_generators = [
     'outputs': [
             {
                 'name': '<generated_api_doc_name_1>',
-                'path': '<path_to_generated_api_doc_1>'
+                'path': '<path_to_generated_api_doc_1>' # path should be relative to the docs directory
             },
             {
                 'name': '<generated_api_doc_name_2>',
