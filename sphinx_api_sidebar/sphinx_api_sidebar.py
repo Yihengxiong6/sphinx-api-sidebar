@@ -63,7 +63,7 @@ def generate_api_sidebar(app, config):
         for output in api_docs_generator["outputs"]:
             api_doc_name = output["name"]
 
-            output_path = output["path"]
+            output_path = os.path.join(app.srcdir, output["path"])# the input path should be relative to app.srcdir
 
             shutil.copytree(output_path, os.path.join(api_docs_dir, api_doc_name))
 
@@ -74,6 +74,7 @@ def generate_api_sidebar(app, config):
 
 
 def setup(app):
+
     app.add_config_value("api_docs_generators", [], "env")
 
     app.connect("config-inited", generate_api_sidebar)
