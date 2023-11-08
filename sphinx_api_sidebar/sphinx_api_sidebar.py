@@ -57,17 +57,24 @@ def generate_api_sidebar(app, config):
         # get the build command from conf.py and run it
         command = api_docs_generator["command"]
 
-        subprocess.run([f"{command}"], text=True, shell=True, capture_output=True)
+        result = subprocess.run([f"{command}"], text=True, shell=True, capture_output=True)
+        if result.returncode != 0:
+            logger.warning(f"Command '{command}' failed with return code {result.returncode}: {result.stderr}")
+            continue
 
         # iterate through the list of dictionaries and copy the generated API docs to the static/api-docs directory
         for output in api_docs_generator["outputs"]:
             api_doc_name = output["name"]
 
-            output_path = os.path.join(app.srcdir, output["path"])# the input path should be relative to app.srcdir
+            try:
+                output_path = os.path.join(app.srcdir, output["path"])# the input path should be relative to app.srcdir
 
-            shutil.copytree(output_path, os.path.join(api_docs_dir, api_doc_name))
+                shutil.copytree(output_path, os.path.join(api_docs_dir, api_doc_name))
 
-            api_docs.append(api_doc_name)
+                api_docs.append(api_doc_name)
+            except Exception as e:
+                logger.warning(f"An error occurred while picking up API docs from {output_path}: {e}")
+                continue
 
     # update html_context with api_docs
     update_html_context(config, api_docs)
