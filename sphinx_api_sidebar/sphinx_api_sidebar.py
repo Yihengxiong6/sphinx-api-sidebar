@@ -59,7 +59,7 @@ def generate_api_sidebar(app, config):
 
         result = subprocess.run([f"{command}"], text=True, shell=True, capture_output=True)
         if result.returncode != 0:
-            logger.warning(f"Command '{command}' failed with return code {result.returncode}: {result.stderr}")
+            logger.warning(f"Command '{command}' failed with return code {result.returncode}: {result.stderr}", color="yellow")
             continue
 
         # iterate through the list of dictionaries and copy the generated API docs to the static/api-docs directory
@@ -73,7 +73,8 @@ def generate_api_sidebar(app, config):
 
                 api_docs.append(api_doc_name)
             except Exception as e:
-                logger.warning(f"An error occurred while picking up API docs from {output_path}: {e}")
+                ## warn the user that the API docs could not be picked up in yellow
+                logger.warning(f"Could not copy API docs from {output_path}: {e}", color="yellow")
                 continue
 
     # update html_context with api_docs
