@@ -8,7 +8,7 @@ from sphinx.util import logging
 logger = logging.getLogger(__name__)
 
 TEMPLATE_CONTENT = """{% if api_docs %}
-    <h3>{{ _('API Documentation') }}</h3>
+    <h4>{{ _('API Documentation') }}</h4>
     <ul style="list-style-type: none;">
     {%- for item in api_docs %}
         <li style="margin-bottom: 10px;"><a href="{{ pathto('_static/api-docs/{}'.format(item), 1) }}">{{ item }}</a></li>
