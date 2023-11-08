@@ -8,7 +8,7 @@ from sphinx.util import logging
 logger = logging.getLogger(__name__)
 
 TEMPLATE_CONTENT = """{% if api_docs %}
-    <h3>{{ _('API Documentation') }}</h3>
+    <h4>{{ _('API Documentation') }}</h4>
     <ul style="list-style-type: none;">
     {%- for item in api_docs %}
         <li style="margin-bottom: 10px;"><a href="{{ pathto('_static/api-docs/{}'.format(item), 1) }}">{{ item }}</a></li>
@@ -57,17 +57,25 @@ def generate_api_sidebar(app, config):
         # get the build command from conf.py and run it
         command = api_docs_generator["command"]
 
-        subprocess.run([f"{command}"], text=True, shell=True, capture_output=True)
+        result = subprocess.run([f"{command}"], text=True, shell=True, capture_output=True)
+        if result.returncode != 0:
+            logger.warning(f"Command '{command}' failed with return code {result.returncode}: {result.stderr}", color="yellow")
+            continue
 
         # iterate through the list of dictionaries and copy the generated API docs to the static/api-docs directory
         for output in api_docs_generator["outputs"]:
             api_doc_name = output["name"]
 
-            output_path = os.path.join(app.srcdir, output["path"])# the input path should be relative to app.srcdir
+            try:
+                output_path = os.path.join(app.srcdir, output["path"])# the input path should be relative to app.srcdir
 
-            shutil.copytree(output_path, os.path.join(api_docs_dir, api_doc_name))
+                shutil.copytree(output_path, os.path.join(api_docs_dir, api_doc_name))
 
-            api_docs.append(api_doc_name)
+                api_docs.append(api_doc_name)
+            except Exception as e:
+                ## warn the user that the API docs could not be picked up in yellow
+                logger.warning(f"Could not copy API docs from {output_path}: {e}", color="yellow")
+                continue
 
     # update html_context with api_docs
     update_html_context(config, api_docs)
