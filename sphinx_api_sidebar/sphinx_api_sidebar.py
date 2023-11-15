@@ -8,12 +8,12 @@ from sphinx.util import logging
 logger = logging.getLogger(__name__)
 
 TEMPLATE_CONTENT = """{% if api_docs %}
-    <h4>{{ _('API Documentation') }}</h4>
-    <ul style="list-style-type: none;">
-    {%- for item in api_docs %}
-        <li style="margin-bottom: 10px;"><a href="{{ pathto('_static/api-docs/{}'.format(item), 1) }}">{{ item }}</a></li>
-    {%- endfor %}
-    </ul>
+<h4>{{ _('API Documentation') }}</h4>
+<ul style="list-style-type: none">
+  {%- for item in api_docs %}
+  <li style="margin-bottom: 10px"><a href="{{ pathto('_static/api-docs/{}'.format(item), 1) }}">{{ item }}</a></li>
+  {%- endfor %}
+</ul>
 {% endif %}
 """
 
@@ -59,7 +59,7 @@ def generate_api_sidebar(app, config):
 
         result = subprocess.run([f"{command}"], text=True, shell=True, capture_output=True)
         if result.returncode != 0:
-            logger.warning(f"Command '{command}' failed with return code {result.returncode}: {result.stderr}", color="yellow")
+            logger.warning(f"Command '{command}' failed with return code {result.returncode}: {result.stderr}", color="red")
             continue
 
         # iterate through the list of dictionaries and copy the generated API docs to the static/api-docs directory
